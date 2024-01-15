@@ -3,13 +3,28 @@ const { BadRequestError, ExpressError, NotFoundError } = require('../expressErro
 
 
 class Enrollment{
-
+CREATE TABLE "enrollment" (
+    "id" number   NOT NULL,
+    "student_id" number   NOT NULL,
+    "course_id" number   NOT NULL,
+    "enrollment_date" date   NOT NULL,
+    "is_paid_subscription" char(1)   NOT NULL,
+    CONSTRAINT "pk_enrollment" PRIMARY KEY (
+        "id"
+     )
+);
 
 	static async create(){
 		try{
-					const duplicateCheck = await db.query(`SELECT __________ FROM orders WHERE __________=$1`)
+					const duplicateCheck = await db.query(`SELECT id FROM enrollment WHERE id=$1`,data.id)
 			   	if(duplicateCheck.rows[0])
-						throw new BadRequestError(`Duplicate Order details: ${data.order_id}`)
+						throw new BadRequestError(`Duplicate enrollment details: ${data.id}`)
+
+					const result = await db.query(``)
+
+					const newEnrollment = result.rows[0]
+
+					return newEnrollment
 
 		}catch(error){
 			console.log(error)

@@ -3,7 +3,17 @@ const { BadRequestError, ExpressError, NotFoundError } = require('../expressErro
 
 class CourseChapter{
 
-
+// CREATE TABLE "course_chapter" (
+//     "id" int   NOT NULL,
+//     "course_id" int   NOT NULL,
+//     "chapter_title" varchar(100)   NOT NULL,
+//     "num_of_reading" number   NOT NULL,
+//     "num_of_video" number   NOT NULL,
+//     "num_of_assignment" number   NOT NULL,
+//     CONSTRAINT "pk_course_chapter" PRIMARY KEY (
+//         "id"
+//      )
+// );
 
 
 	static async create(){

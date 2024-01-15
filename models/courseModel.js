@@ -2,7 +2,20 @@ const db = require("../db")
 const { BadRequestError, ExpressError, NotFoundError } = require('../expressError')
 
 
-
+/*
+CREATE TABLE "course" (
+    "id" int   NOT NULL,
+    "course_title" varchar(200)   NOT NULL,
+    "course_brief" varchar(200)   NOT NULL,
+    "instructor_id" int   NOT NULL,
+    "num_of_chapters" int   NOT NULL,
+    "course_fee" int   NOT NULL,
+    "language_id" int   NOT NULL,
+    CONSTRAINT "pk_course" PRIMARY KEY (
+        "id"
+     )
+);
+*/
 
 class Course{
 

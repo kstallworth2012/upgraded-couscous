@@ -3,13 +3,28 @@ const { BadRequestError, ExpressError, NotFoundError } = require('../expressErro
 
 
 class LearningProgress{
-	
+// 	CREATE TABLE "learning_progress" (
+//     "id" number   NOT NULL,
+//     "enrollment_id" number   NOT NULL,
+//     "course_chapter_content_id" int   NOT NULL,
+//     "begin_time" timestamp   NOT NULL,
+//     "completion" timestamp   NOT NULL,
+//     "status" char(1)   NOT NULL,
+//     CONSTRAINT "pk_learning_progress" PRIMARY KEY (
+//         "id"
+//      )
+// );
 
-	static async create(){
+	static async create(data){
 		try{
-					const duplicateCheck = await db.query(`SELECT __________ FROM orders WHERE __________=$1`)
+					const duplicateCheck = await db.query(`SELECT id FROM learning_progress WHERE id=$1`,[data.id])
 			   	if(duplicateCheck.rows[0])
-						throw new BadRequestError(`Duplicate Order details: ${data.order_id}`)
+						throw new BadRequestError(`Duplicate learning_progress details: ${data.id}`)
+
+
+					const newLearningProgress = result.rows[0]
+
+					return newLearningProgress
 
 		}catch(error){
 			console.log(error)

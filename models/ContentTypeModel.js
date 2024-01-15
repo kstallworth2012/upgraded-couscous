@@ -1,7 +1,13 @@
 const db = require("../db")
 const { BadRequestError, ExpressError, NotFoundError } = require('../expressError')
 
-
+// CREATE TABLE "content_type" (
+//     "id" number   NOT NULL,
+//     "content_type" varchar(20)   NOT NULL,
+//     CONSTRAINT "pk_content_type" PRIMARY KEY (
+//         "id"
+//      )
+// );
 class ContentType{
 
 
