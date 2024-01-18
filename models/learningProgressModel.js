@@ -21,6 +21,12 @@ class LearningProgress{
 			   	if(duplicateCheck.rows[0])
 						throw new BadRequestError(`Duplicate learning_progress details: ${data.id}`)
 
+					const result = await db.query(`INSERT INTO learning_progress (id,enrollment_id,course_chapter_content_id
+						,begin_time,completion,status)
+						VALUES($1,$2,$3,$4,$5,$6)
+						RETURNING id,enrollment_id`,
+						[data.id,data.enrollment_id,data.course_chapter_content_id,data.begin_time,data.completion,data.status])
+
 
 					const newLearningProgress = result.rows[0]
 
@@ -33,7 +39,7 @@ class LearningProgress{
 
 	static async getAll(){
 		try{
-				const result = await db.query('SELECT * FROM _____________')
+				const result = await db.query('SELECT * FROM learning_progress')
 			    return result.rows
 		}catch(error){
 			console.log(error)
@@ -43,15 +49,37 @@ class LearningProgress{
 
 		static async getById(){
 		try{
+               const result = await db.query(`SELECT * FROM learning_progress WHERE id =$1`,[id])
 
+               const learningProgress = result.rows[0]
+               if(!learningProgress){
+               	   throw new NotFoundError('No LearningProgress Found') 
+               }
+
+               return learningProgress
 		}catch(error){
 			console.log(error)
 		}
 	}
 
 
-		static async update(){
+		static async update(data){
 		try{
+			   const result = await db.query(`UPDATE learning_progress
+			   									SET 
+											    enrollment_id=$1,
+											    course_chapter_content_id=$2
+											    begin_time=$3,
+											    completion=$4,
+											    status=$5,
+											    WHERE id = $6
+			   									`,[data.enrollment_id,data.course_chapter_content_id,
+			   										data.begin_time,data.completion,data.status,data.id])
+			   const updateLearnProgress = result.rows[0]
+			   if(!updateLearnProgress){
+			   				//THROW SOME ERROR 
+			   }
+			   return updateLearnProgress
 
 		}catch(error){
 			console.log(error)

@@ -15,15 +15,20 @@ CREATE TABLE "student" (
      )
 );
 
-class Student{
+class StudentModel{
 
 
-	static async create(){
+	static async create(data){
 		try{
-					const duplicateCheck = await db.query(`SELECT __________ FROM orders WHERE __________=$1`)
+					const duplicateCheck = await db.query(`SELECT id FROM orders WHERE id=$1`,[data.id])
 			   	if(duplicateCheck.rows[0])
-						throw new BadRequestError(`Duplicate Order details: ${data.order_id}`)
+						throw new BadRequestError(`Duplicate Order details: ${data.id}`)
 
+					const result = await db.query(``)
+					const newStudent = result.rows[0]
+
+
+					return newStudent
 		}catch(error){
 			console.log(error)
 		}
@@ -78,6 +83,6 @@ class Student{
 
 
 
-module.exports = Student
+module.exports = StudentModel
 
 

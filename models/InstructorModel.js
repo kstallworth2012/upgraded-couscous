@@ -22,14 +22,26 @@ CREATE TABLE "instructor" (
 );
 
 
-class Instructor{
+class InstructorModel{
 
 
 	static async create(){
 		try{
-					const duplicateCheck = await db.query(`SELECT __________ FROM orders WHERE __________=$1`)
+					const duplicateCheck = await db.query(`SELECT instructor FROM orders WHERE is=$1`,[data.id])
 			   	if(duplicateCheck.rows[0])
 						throw new BadRequestError(`Duplicate Order details: ${data.order_id}`)
+					const result =await db.query(`INSERT INTO instructor(id,firstName,lastName,email,r
+						egistration_date,qualification,intro_brief,image,num_of_published_courses,num_of_enrolled_students,average_review_rating
+						,num_of_reviews)
+						VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+						RETURNING id, registration_date`,
+						[data.id,data.firstName,data.lastName,data.email,data.registration_data,data.qualification,data.intro_brief,
+							data.image,data.num_of_published_courses,data.num_of_enrolled_students,
+							data.average_review_rating,data.num_of_reviews])
+
+					const newInstructor = result.rows[0]
+
+					return newInstructor
 
 		}catch(error){
 			console.log(error)
@@ -82,4 +94,4 @@ class Instructor{
 
 }
 
-module.exports = Instructor
+module.exports = InstructorModel

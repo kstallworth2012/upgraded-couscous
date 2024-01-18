@@ -2,17 +2,17 @@ const db = require("../db")
 const { BadRequestError, ExpressError, NotFoundError } = require('../expressError')
 
 
-class Enrollment{
-CREATE TABLE "enrollment" (
-    "id" number   NOT NULL,
-    "student_id" number   NOT NULL,
-    "course_id" number   NOT NULL,
-    "enrollment_date" date   NOT NULL,
-    "is_paid_subscription" char(1)   NOT NULL,
-    CONSTRAINT "pk_enrollment" PRIMARY KEY (
-        "id"
-     )
-);
+class EnrollmentModel{
+// CREATE TABLE "enrollment" (
+//     "id" number   NOT NULL,
+//     "student_id" number   NOT NULL,
+//     "course_id" number   NOT NULL,
+//     "enrollment_date" date   NOT NULL,
+//     "is_paid_subscription" char(1)   NOT NULL,
+//     CONSTRAINT "pk_enrollment" PRIMARY KEY (
+//         "id"
+//      )
+// );
 
 	static async create(){
 		try{
@@ -20,7 +20,9 @@ CREATE TABLE "enrollment" (
 			   	if(duplicateCheck.rows[0])
 						throw new BadRequestError(`Duplicate enrollment details: ${data.id}`)
 
-					const result = await db.query(``)
+					const result = await db.query(`INSERT INTO enrollment (id,student_id,course_id,enrollment_date,is_paid_subscription
+						VALUES($1,$2,$3,$4,$5)
+						RETURNING id, enrollment_date`,[data.id, data.student_id,data.course_id,data.enrollment_date,data.is_paid_subscription])
 
 					const newEnrollment = result.rows[0]
 
@@ -33,7 +35,7 @@ CREATE TABLE "enrollment" (
 
 	static async getAll(){
 		try{
-				const result = await db.query('SELECT * FROM _____________')
+				const result = await db.query('SELECT * FROM enrollments')
 			    return result.rows
 		}catch(error){
 			console.log(error)
@@ -76,4 +78,4 @@ CREATE TABLE "enrollment" (
 }
 
 
-module.exports = Enrollment
+module.exports = EnrollmentModel
