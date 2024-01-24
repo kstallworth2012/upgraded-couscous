@@ -78,6 +78,7 @@ class LearningProgress{
 			   const updateLearnProgress = result.rows[0]
 			   if(!updateLearnProgress){
 			   				//THROW SOME ERROR 
+			   			  throw new NotFoundError(`Learning Progress not found ${data.id}`)
 			   }
 			   return updateLearnProgress
 
@@ -89,10 +90,10 @@ class LearningProgress{
 
 		static async remove(Id){
 		try{
-				const result = await db.query(`DELETE FROM _____ WHERE ___ = $1
-					RETURNING ___`,[Id])
-				const order = result.rows[0]
-				if(!___) throw new NotFoundError(`no ___ found:${___}`)
+				const result = await db.query(`DELETE FROM learning_progress WHERE id = $1
+					RETURNING id`,[Id])
+				const learning_progress = result.rows[0]
+				if(!learning_progress) throw new NotFoundError(`no learning_progress found:${id}`)
 
 		}catch(error){
 			console.log(error)

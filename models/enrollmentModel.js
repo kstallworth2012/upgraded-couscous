@@ -35,7 +35,7 @@ class EnrollmentModel{
 
 	static async getAll(){
 		try{
-				const result = await db.query('SELECT * FROM enrollments')
+				const result = await db.query('SELECT * FROM enrollment')
 			    return result.rows
 		}catch(error){
 			console.log(error)
@@ -43,8 +43,14 @@ class EnrollmentModel{
 	}
 
 
-		static async getById(){
+		static async getById(Id){
 		try{
+			   const result = await db.query(`SELECT * FROM enrollment WHERE id =$1`,[Id])
+			   const enrollment = result.rows[0]
+			   if(!enrollment){
+			   	   throw new NotFoundError(`enrollment not found ${Id}`)
+			   }
+			   return enrollment
 
 		}catch(error){
 			console.log(error)
@@ -52,8 +58,21 @@ class EnrollmentModel{
 	}
 
 
-		static async update(){
+		static async update(data){
 		try{
+
+
+			const result = await db.query(`
+						UPDATE enrollment SET 
+						student_id=$1,course_id=$2,enrollment_date=$3,is_paid_subscription=$4
+						WHERE id = $5
+						RETURNING id
+				`,[data.student_id,data.course_id,data.enrollment_date,data.is_paid_subscription,data.id])
+				const updatedEnrollment = result.rows[0]
+				if(!updatedEnrollment){
+					throw new NotFoundError(`No enrollment found ${data.id}`)
+				}
+				return updatedEnrollment
 
 		}catch(error){
 			console.log(error)
@@ -63,10 +82,10 @@ class EnrollmentModel{
 
 		static async remove(Id){
 		try{
-				const result = await db.query(`DELETE FROM _____ WHERE ___ = $1
-					RETURNING ___`,[Id])
-				const order = result.rows[0]
-				if(!___) throw new NotFoundError(`no ___ found:${___}`)
+				const result = await db.query(`DELETE FROM enrollment WHERE id = $1
+					RETURNING id`,[Id])
+				const enrollment = result.rows[0]
+				if(!enrollment) throw new NotFoundError(`no enrollment found:${Id}`)
 
 		}catch(error){
 			console.log(error)
