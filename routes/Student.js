@@ -6,7 +6,9 @@ router.get('/' ,async (request,response,next)=>{
 	try{
 		     const results =await StudentModel.getAll()
 
-		     return response.json({"Students":results})
+		     return response.json({
+		     	"count":results.length
+		     	"data":results})
 
 	}catch(e){
 	return next(e)
@@ -15,20 +17,24 @@ router.get('/' ,async (request,response,next)=>{
 
 router.get('/:id' ,async function (request,response,next){
 	try{
-				return response.json({"GET":"BY ID"})
+
+				const {id} = request.params
+				const Student = StudentModel.getById(id)
+				return response.status(201).json({Student})
 	}catch(e){
 	return next(e)
 	}
 })
 
 
-// router.post('/', async function (request,response,next){
-// 	try{
-// 				return response.json({"CREATE EVERYTHING"})
-// 	}catch(e){
-// 	return next(e)
-// 	}
-// })
+router.post('/', async function (request,response,next){
+	try{
+				const newStudent = await StudentModel.create(request.body)
+				return response.json({"CREATE EVERYTHING"})
+	}catch(e){
+	return next(e)
+	}
+})
 
 
 router.patch('/:id', async function (request,response,next){

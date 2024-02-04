@@ -52,7 +52,7 @@ router.delete('/:id', async function (request,response,next){
 	try{
 				const {id} =request.params
 				const removeEnrollment = await enrollmentModel.remove(id,request.body)
-				return response.json({removeTask})
+				return response.json({removeEnrollment})
 	}catch(e){
 	return next(e)
 	}
