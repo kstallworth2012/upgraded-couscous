@@ -30,7 +30,7 @@ router.get('/:id' ,async function (request,response,next){
 router.post('/', async function (request,response,next){
 	try{
 				const newStudent = await StudentModel.create(request.body)
-				return response.json({"CREATE EVERYTHING"})
+				return response.json({newStudent})
 	}catch(e){
 	return next(e)
 	}
@@ -40,7 +40,10 @@ router.post('/', async function (request,response,next){
 router.patch('/:id', async function (request,response,next){
 	try{
 
-		return response.json({"UPDATE ":"BY ID"})
+			const {id} = request.params
+		const updatedStudent = await Model.getById(id,request.body)
+		return response.json({updatedStudent})
+
 
 	}catch(e){
 	return next(e)
@@ -49,7 +52,9 @@ router.patch('/:id', async function (request,response,next){
 
 router.delete('/:id', async function (request,response,next){
 	try{
-				return response.json({"DELETE ":"BY ID"})
+				const {id} =request.params
+				const removeStudent = await Model.remove(id,request.body)
+				return response.json({removeStudent})
 	}catch(e){
 	return next(e)
 	}
