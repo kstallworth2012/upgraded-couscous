@@ -14,7 +14,7 @@ class EnrollmentModel{
 //      )
 // );
 
-	static async create(){
+	static async create(data){
 		try{
 					const duplicateCheck = await db.query(`SELECT id FROM enrollment WHERE id=$1`,data.id)
 			   	if(duplicateCheck.rows[0])
